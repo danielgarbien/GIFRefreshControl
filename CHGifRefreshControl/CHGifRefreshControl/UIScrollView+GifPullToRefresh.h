@@ -37,7 +37,7 @@
 @interface UIScrollView (GifPullToRefresh)
 @property(nonatomic,strong)CHGifRefreshControl *refreshControl;
 
-- (void)addPullToRefreshWithDrawingImgs:(NSArray*)drawingImgs andLoadingImgs:(NSArray*)loadingImgs andActionHandler:(void (^)(void))actionHandler;
+- (CHGifRefreshControl *)addPullToRefreshWithDrawingImgs:(NSArray*)drawingImgs andLoadingImgs:(NSArray*)loadingImgs andActionHandler:(void (^)(void))actionHandler;
 - (void)didFinishPullToRefresh;
 @end
 

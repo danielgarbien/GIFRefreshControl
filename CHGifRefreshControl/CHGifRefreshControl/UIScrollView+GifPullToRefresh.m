@@ -53,7 +53,7 @@ static char UIScrollViewGifPullToRefresh;
     return objc_getAssociatedObject(self, &UIScrollViewGifPullToRefresh);
 }
 
-- (void)addPullToRefreshWithDrawingImgs:(NSArray*)drawingImgs andLoadingImgs:(NSArray*)loadingImgs andActionHandler:(void (^)(void))actionHandler
+- (CHGifRefreshControl *)addPullToRefreshWithDrawingImgs:(NSArray*)drawingImgs andLoadingImgs:(NSArray*)loadingImgs andActionHandler:(void (^)(void))actionHandler
 {
     
     CHGifRefreshControl *view = [[CHGifRefreshControl alloc] initWithFrame:CGRectMake(0, -GifRefreshControlHeight, self.bounds.size.width, GifRefreshControlHeight)];
@@ -67,6 +67,8 @@ static char UIScrollViewGifPullToRefresh;
     view.loadingImgs = loadingImgs;
     [self addSubview:view];
     self.refreshControl = view;
+    
+    return view;
 }
 
 
