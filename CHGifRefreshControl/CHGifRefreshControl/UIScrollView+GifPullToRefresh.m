@@ -205,7 +205,12 @@ static char UIScrollViewGifPullToRefresh;
                               delay:0
                             options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
                          animations:^{
+                             CGPoint contentOffset = self.scrollView.contentOffset;
                              self.scrollView.contentInset = UIEdgeInsetsMake(self.originalContentInsectY, 0.0f, 0.0f, 0.0f);
+                             // if refresher is already out of sight - leave contentOffset at it was (setting contentInset might have changed it)
+                             if (contentOffset.y >= 0) {
+                                 self.scrollView.contentOffset = contentOffset;
+                             }
                          }
                          completion:nil];
     }
