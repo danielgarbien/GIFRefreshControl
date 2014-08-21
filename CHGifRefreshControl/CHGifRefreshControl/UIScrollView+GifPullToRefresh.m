@@ -27,7 +27,6 @@
 #import "UIScrollView+GifPullToRefresh.h"
 #import <objc/runtime.h>
 
-#define GifRefreshControlHeight 103.0
 
 typedef enum
 {
@@ -56,11 +55,11 @@ static char UIScrollViewGifPullToRefresh;
 - (CHGifRefreshControl *)addPullToRefreshWithDrawingImgs:(NSArray*)drawingImgs andLoadingImgs:(NSArray*)loadingImgs andActionHandler:(void (^)(void))actionHandler
 {
     
-    CHGifRefreshControl *view = [[CHGifRefreshControl alloc] initWithFrame:CGRectMake(0, -GifRefreshControlHeight, self.bounds.size.width, GifRefreshControlHeight)];
+    CHGifRefreshControl *view = [[CHGifRefreshControl alloc] initWithFrame:CGRectMake(0, -self.controlHeight, self.bounds.size.width, self.controlHeight)];
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
         view.originalContentInsectY = 64;
     }
-        
+    
     view.scrollView = self;
     view.pullToRefreshActionHandler = actionHandler;
     view.drawingImgs = drawingImgs;
@@ -125,9 +124,9 @@ static char UIScrollViewGifPullToRefresh;
                                       delay:0
                                     options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
                                  animations:^{
-                                     self.scrollView.contentOffset = CGPointMake(0, -GifRefreshControlHeight - self.originalContentInsectY);
-                                     self.scrollView.contentInset = UIEdgeInsetsMake(GifRefreshControlHeight + self.originalContentInsectY, 0.0f, 0.0f, 0.0f);
- 
+                                     self.scrollView.contentOffset = CGPointMake(0, -self.controlHeight - self.originalContentInsectY);
+                                     self.scrollView.contentInset = UIEdgeInsetsMake(self.controlHeight + self.originalContentInsectY, 0.0f, 0.0f, 0.0f);
+                                     
                                  }
                                  completion:^(BOOL finished) {
                                      if (self.pullToRefreshActionHandler) {
@@ -139,7 +138,7 @@ static char UIScrollViewGifPullToRefresh;
         else if([keyPath isEqualToString:@"contentOffset"]){
             [self scrollViewContentOffsetChanged];
         }
-       
+        
     }
     
 }
@@ -147,11 +146,11 @@ static char UIScrollViewGifPullToRefresh;
 - (void)scrollViewContentOffsetChanged
 {
     if (_state != GifPullToRefreshStateLoading) {
-        if (self.scrollView.isDragging && self.scrollView.contentOffset.y + self.originalContentInsectY < -GifRefreshControlHeight && !_isTrigged) {
+        if (self.scrollView.isDragging && self.scrollView.contentOffset.y + self.originalContentInsectY < -self.controlHeight && !_isTrigged) {
             _isTrigged = YES;
         }
         else {
-            if (self.scrollView.isDragging && self.scrollView.contentOffset.y + self.originalContentInsectY > -GifRefreshControlHeight) {
+            if (self.scrollView.isDragging && self.scrollView.contentOffset.y + self.originalContentInsectY > -self.controlHeight) {
                 _isTrigged = NO;
             }
             [self setState:GifPullToRefreshStateDrawing];
@@ -167,10 +166,10 @@ static char UIScrollViewGifPullToRefresh;
     if (offset < 0) {
         offset = 0;
     }
-    if (offset > GifRefreshControlHeight) {
-        offset = GifRefreshControlHeight;
+    if (offset > self.controlHeight) {
+        offset = self.controlHeight;
     }
-    percent = offset / GifRefreshControlHeight;
+    percent = offset / self.controlHeight;
     NSUInteger drawingIndex = percent * (self.drawingImgs.count - 1);
 	switch (aState)
 	{
@@ -198,7 +197,7 @@ static char UIScrollViewGifPullToRefresh;
 {
     if (_state == GifPullToRefreshStateLoading) {
         _isTrigged = NO;
-
+        
         [self setState:GifPullToRefreshStateDrawing];
         
         [UIView animateWithDuration:0.2

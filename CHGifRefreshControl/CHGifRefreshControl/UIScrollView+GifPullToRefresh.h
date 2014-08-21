@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSArray *drawingImgs;
 @property (nonatomic, strong) NSArray *loadingImgs;
 @property (nonatomic, assign) CGFloat originalContentInsectY;
+@property (nonatomic, assign) CGFloat controlHeight;
 - (void)endLoading;
 @end
 
