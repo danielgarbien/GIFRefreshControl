@@ -55,7 +55,7 @@ static char UIScrollViewGifPullToRefresh;
 - (CHGifRefreshControl *)addPullToRefreshWithDrawingImgs:(NSArray*)drawingImgs andLoadingImgs:(NSArray*)loadingImgs andActionHandler:(void (^)(void))actionHandler
 {
     
-    CHGifRefreshControl *view = [[CHGifRefreshControl alloc] initWithFrame:CGRectMake(0, -self.controlHeight, self.bounds.size.width, self.controlHeight)];
+    CHGifRefreshControl *view = [[CHGifRefreshControl alloc] initWithFrame:CGRectMake(0, -self.refreshControl.controlHeight, self.bounds.size.width, self.refreshControl.controlHeight)];
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0) {
         view.originalContentInsectY = 64;
     }
